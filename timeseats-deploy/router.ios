@@ -1,0 +1,31 @@
+dns cache enable
+dns cache max-records 1024
+
+proxy-dns ip enable
+proxy-dns ip request both
+proxy-dns interface GigaEthernet0.0
+
+dns host server.internal ip 192.168.0.1
+
+ip ufs-cache max-entries 20000
+ip ufs-cache enable
+
+ntp server 61.205.120.130
+
+ip dhcp profile dhcpv4-sv
+    assignable-range 192.168.0.100 192.168.0.254
+    subnet-mask 255.255.255.0
+    default-gateway 192.168.0.254
+    dns-server 192.168.0.254
+    lease-time 86400
+    fixed-assignment 192.168.0.1 (mac address)
+
+interface GigaEthernet0.0
+    ip address dhcp
+    no shutdown
+
+interface GigaEthernet2.0
+    ip address 192.168.0.254/24
+    ip dhcp binding dhcpv4-sv
+    no shutdown
+
